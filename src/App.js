@@ -1,3 +1,5 @@
+import { useState } from "react";
+
 const initialTasks = [
 	{
 		task: "Task 1",
@@ -28,7 +30,7 @@ function Header() {
 			<p className="logo-text">
 				WILL-<span>DO</span>
 			</p>
-			<i class="fa-solid fa-arrow-right-from-bracket"></i>
+			<i className="fa-solid fa-arrow-right-from-bracket"></i>
 		</div>
 	);
 }
@@ -55,9 +57,30 @@ function Progress() {
 }
 
 function Form() {
+	const [task, setTask] = useState("");
+
+	function handleSubmit(e) {
+		e.preventDefault();
+		if (!task) return;
+
+		const newTask = {
+			task,
+			completed: false,
+		};
+
+		console.log(newTask);
+
+		setTask("");
+	}
+
 	return (
-		<form name="willDoForm" id="todo">
-			<input type="text" placeholder="What will you do?"></input>
+		<form name="willDoForm" id="todo" onSubmit={handleSubmit}>
+			<input
+				type="text"
+				placeholder="What will you do?"
+				value={task}
+				onChange={(e) => setTask(e.target.value)}
+			></input>
 			<button>+</button>
 		</form>
 	);
@@ -78,14 +101,14 @@ function Task({ taskItem }) {
 		<li className="task">
 			<div>
 				<span>
-					<i class="fa-regular fa-circle"></i>
+					<i className="fa-regular fa-circle"></i>
 				</span>
 				{taskItem.task}
 			</div>
 
 			<span>
-				<i class="fa-regular fa-pen-to-square"></i>
-				<i class="fa-regular fa-trash-can"></i>
+				<i className="fa-regular fa-pen-to-square"></i>
+				<i className="fa-regular fa-trash-can"></i>
 			</span>
 		</li>
 	);
