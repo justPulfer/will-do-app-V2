@@ -14,9 +14,7 @@ body {
 }
 
 .main {
-	width: 480px;
-	max-width: 50%;
-	height: 100%;
+	max-width: 30rem;
 	min-height: 100vh;
 	display: flex;
 	flex-direction: column;
@@ -29,7 +27,7 @@ body {
 
 .header {
 	display: flex;
-	width: 80%;
+	max-width: 80%;
 	margin: auto;
 	align-items: center;
 	justify-content: space-between;
@@ -54,6 +52,7 @@ body {
 }
 
 .progress {
+	max-width: 100%;
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -82,20 +81,20 @@ body {
 	font-size: 1.5rem;
 	font-weight: 700;
 	border-radius: 50%;
-	width: 7.5rem;
-	height: 7.5rem;
+	padding: 3rem;
 }
 
 form {
-	width: 100%;
+	min-width: 100%;
 	display: flex;
+	flex-wrap: wrap;
 	gap: 1rem;
 	align-items: center;
 	justify-content: center;
 }
 
 form input {
-	width: 80%;
+	min-width: 80%;
 	border: none;
 	border-radius: 1rem;
 	padding: 1rem;
@@ -108,8 +107,7 @@ form input {
 form button {
 	border: none;
 	border-radius: 50%;
-	width: 3.5rem;
-	height: 3.5rem;
+	padding: 1rem 1.35rem;
 	color: #0d0d0d;
 	font-size: 1.3rem;
 	font-weight: 900;
@@ -119,7 +117,7 @@ form button {
 .task-lists {
 	display: grid;
 	gap: 1rem;
-	width: 100%;
+	min-width: 100%;
 }
 
 .task {
@@ -142,4 +140,15 @@ form button {
 .task > span {
 	display: flex;
 	gap: 1rem;
+}
+
+/* Media Queries */
+@media screen and (max-width: 21.25em) {
+	.progress {
+		flex-wrap: wrap;
+	}
+	.task {
+		flex-wrap: wrap;
+		justify-content: center;
+	}
 }

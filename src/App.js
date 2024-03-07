@@ -56,7 +56,7 @@ function Progress() {
 
 function Form() {
 	return (
-		<form>
+		<form name="willDoForm" id="todo">
 			<input type="text" placeholder="What will you do?"></input>
 			<button>+</button>
 		</form>
