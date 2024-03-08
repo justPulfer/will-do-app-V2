@@ -104,7 +104,7 @@ form input {
 	font-size: 1.2rem;
 }
 
-form button {
+form .addBtn {
 	border: none;
 	border-radius: 50%;
 	padding: 1rem 1.35rem;
@@ -113,6 +113,12 @@ form button {
 	font-weight: 900;
 	background-color: #ff5631;
 	cursor: pointer;
+
+	transition: scale 200ms ease-in-out;
+}
+
+form .addBtn:hover {
+	scale: 1.1;
 }
 
 .task-lists {
@@ -145,6 +151,11 @@ form button {
 
 .task i {
 	cursor: pointer;
+	transition: scale 200ms ease-in-out;
+}
+
+.task i:hover {
+	scale: 1.2;
 }
 
 /* Media Queries */
