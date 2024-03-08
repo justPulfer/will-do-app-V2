@@ -1,17 +1,4 @@
-const initialTasks = [
-	{
-		task: "Task 1",
-		completed: false,
-	},
-	{
-		task: "Task 2",
-		completed: false,
-	},
-	{
-		task: "Task 3",
-		completed: false,
-	},
-];
+import { useState } from "react";
 
 function App() {
 	return (
@@ -28,17 +15,32 @@ function Header() {
 			<p className="logo-text">
 				WILL-<span>DO</span>
 			</p>
-			<i class="fa-solid fa-arrow-right-from-bracket"></i>
+			<i className="fa-solid fa-arrow-right-from-bracket"></i>
 		</div>
 	);
 }
 
 function Main() {
+	const [taskItems, setTaskItems] = useState([]);
+
+	function handleAddTaskItems(item) {
+		setTaskItems((taskItems) => [...taskItems, item]);
+	}
+
+	function handleDeleteTaskItem(id) {
+		setTaskItems((taskItems) =>
+			taskItems.filter((taskItem) => taskItem.id !== id)
+		);
+	}
+
 	return (
 		<div className="main">
 			<Progress />
-			<Form />
-			<TaskLists />
+			<Form onAddTaskItems={handleAddTaskItems} />
+			<TaskLists
+				taskItems={taskItems}
+				onDeleteTaskItem={handleDeleteTaskItem}
+			/>
 		</div>
 	);
 }
@@ -54,38 +56,79 @@ function Progress() {
 	);
 }
 
-function Form() {
+function Form({ onAddTaskItems }) {
+	const [task, setTask] = useState("");
+
+	function handleSubmit(e) {
+		e.preventDefault();
+		if (!task) return;
+
+		const newTask = {
+			task,
+			completed: false,
+			id: Date.now(),
+		};
+
+		onAddTaskItems(newTask);
+
+		setTask("");
+	}
+
 	return (
-		<form name="willDoForm" id="todo">
-			<input type="text" placeholder="What will you do?"></input>
-			<button>+</button>
+		<form action="" onSubmit={handleSubmit}>
+			<input
+				name="input"
+				id="taskInput"
+				type="text"
+				placeholder="What will you do?"
+				value={task}
+				onChange={(e) => setTask(e.target.value)}
+			></input>
+			<button className="addBtn">+</button>
 		</form>
 	);
 }
 
-function TaskLists() {
+function TaskLists({ taskItems, onDeleteTaskItem }) {
 	return (
 		<ul className="task-lists">
-			{initialTasks.map((taskItem) => (
-				<Task taskItem={taskItem} key={taskItem.task} />
+			{taskItems.map((taskItem) => (
+				<Task
+					taskItem={taskItem}
+					onDeleteTaskItem={onDeleteTaskItem}
+					key={taskItem.id}
+				/>
 			))}
 		</ul>
 	);
 }
 
-function Task({ taskItem }) {
+function Task({ taskItem, onDeleteTaskItem }) {
 	return (
 		<li className="task">
 			<div>
 				<span>
-					<i class="fa-regular fa-circle"></i>
+					<i
+						className={
+							!taskItem.completed
+								? "fa-regular fa-circle"
+								: "fa-solid fa-circle-check"
+						}
+					></i>
 				</span>
-				{taskItem.task}
+				<span
+					style={taskItem.completed ? { textDecoration: "line-through" } : {}}
+				>
+					{taskItem.task}
+				</span>
 			</div>
 
 			<span>
-				<i class="fa-regular fa-pen-to-square"></i>
-				<i class="fa-regular fa-trash-can"></i>
+				<i className="fa-regular fa-pen-to-square"></i>
+				<i
+					onClick={() => onDeleteTaskItem(taskItem.id)}
+					className="fa-regular fa-trash-can"
+				></i>
 			</span>
 		</li>
 	);
