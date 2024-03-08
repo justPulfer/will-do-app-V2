@@ -1,19 +1,19 @@
 import { useState } from "react";
 
-const initialTasks = [
-	{
-		task: "Task 1",
-		completed: false,
-	},
-	{
-		task: "Task 2",
-		completed: false,
-	},
-	{
-		task: "Task 3",
-		completed: false,
-	},
-];
+// const initialTasks = [
+// 	{
+// 		task: "Task 1",
+// 		completed: false,
+// 	},
+// 	{
+// 		task: "Task 2",
+// 		completed: false,
+// 	},
+// 	{
+// 		task: "Task 3",
+// 		completed: false,
+// 	},
+// ];
 
 function App() {
 	return (
@@ -36,11 +36,17 @@ function Header() {
 }
 
 function Main() {
+	const [taskItem, setTaskItem] = useState([]);
+
+	function handleAddTaskItem(item) {
+		setTaskItem((taskItem) => [...taskItem, item]);
+	}
+
 	return (
 		<div className="main">
 			<Progress />
-			<Form />
-			<TaskLists />
+			<Form onAddTaskItem={handleAddTaskItem} />
+			<TaskLists taskItem={taskItem} />
 		</div>
 	);
 }
@@ -56,7 +62,7 @@ function Progress() {
 	);
 }
 
-function Form() {
+function Form({ onAddTaskItem }) {
 	const [task, setTask] = useState("");
 
 	function handleSubmit(e) {
@@ -66,8 +72,10 @@ function Form() {
 		const newTask = {
 			task,
 			completed: false,
+			id: Date.now(),
 		};
 
+		onAddTaskItem(newTask);
 		console.log(newTask);
 
 		setTask("");
@@ -86,10 +94,10 @@ function Form() {
 	);
 }
 
-function TaskLists() {
+function TaskLists({ taskItem }) {
 	return (
 		<ul className="task-lists">
-			{initialTasks.map((taskItem) => (
+			{taskItem.map((taskItem) => (
 				<Task taskItem={taskItem} key={taskItem.task} />
 			))}
 		</ul>
