@@ -43,7 +43,7 @@ function Main() {
 
 	return (
 		<div className="main">
-			<Progress />
+			<Progress taskItems={taskItems} />
 			<Form onAddTaskItems={handleAddTaskItems} />
 			<TaskLists
 				taskItems={taskItems}
@@ -54,13 +54,19 @@ function Main() {
 	);
 }
 
-function Progress() {
+function Progress({ taskItems }) {
+	const numItems = taskItems.length;
+	const completedItems = taskItems.filter(
+		(taskItem) => taskItem.completed
+	).length;
 	return (
 		<div className="progress">
 			<p className="confirmation">
 				Todo Done<span className="encourage">Keep it up.</span>
 			</p>
-			<p className="num-completed">0/3</p>
+			<p className="num-completed">
+				{completedItems}/{numItems}
+			</p>
 		</div>
 	);
 }
