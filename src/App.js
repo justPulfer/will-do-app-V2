@@ -33,25 +33,40 @@ function Main() {
 		);
 	}
 
+	function handleToggleItem(id) {
+		setTaskItems((taskItems) =>
+			taskItems.map((item) =>
+				item.id === id ? { ...item, completed: !item.completed } : item
+			)
+		);
+	}
+
 	return (
 		<div className="main">
-			<Progress />
+			<Progress taskItems={taskItems} />
 			<Form onAddTaskItems={handleAddTaskItems} />
 			<TaskLists
 				taskItems={taskItems}
 				onDeleteTaskItem={handleDeleteTaskItem}
+				onToggleItem={handleToggleItem}
 			/>
 		</div>
 	);
 }
 
-function Progress() {
+function Progress({ taskItems }) {
+	const numItems = taskItems.length;
+	const completedItems = taskItems.filter(
+		(taskItem) => taskItem.completed
+	).length;
 	return (
 		<div className="progress">
 			<p className="confirmation">
 				Todo Done<span className="encourage">Keep it up.</span>
 			</p>
-			<p className="num-completed">0/3</p>
+			<p className="num-completed">
+				{completedItems}/{numItems}
+			</p>
 		</div>
 	);
 }
@@ -89,13 +104,14 @@ function Form({ onAddTaskItems }) {
 	);
 }
 
-function TaskLists({ taskItems, onDeleteTaskItem }) {
+function TaskLists({ taskItems, onDeleteTaskItem, onToggleItem }) {
 	return (
 		<ul className="task-lists">
 			{taskItems.map((taskItem) => (
 				<Task
 					taskItem={taskItem}
 					onDeleteTaskItem={onDeleteTaskItem}
+					onToggleItem={onToggleItem}
 					key={taskItem.id}
 				/>
 			))}
@@ -103,7 +119,7 @@ function TaskLists({ taskItems, onDeleteTaskItem }) {
 	);
 }
 
-function Task({ taskItem, onDeleteTaskItem }) {
+function Task({ taskItem, onDeleteTaskItem, onToggleItem }) {
 	return (
 		<li className="task">
 			<div>
@@ -114,6 +130,8 @@ function Task({ taskItem, onDeleteTaskItem }) {
 								? "fa-regular fa-circle"
 								: "fa-solid fa-circle-check"
 						}
+						value={taskItem.completed}
+						onClick={() => onToggleItem(taskItem.id)}
 					></i>
 				</span>
 				<span
