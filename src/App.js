@@ -41,6 +41,14 @@ function Main() {
 		);
 	}
 
+	function handleEditTaskItem(id, updatedTask) {
+		setTaskItems((taskItems) =>
+			taskItems.map((item) =>
+				item.id === id ? { ...item, task: updatedTask } : item
+			)
+		);
+	}
+
 	return (
 		<div className="main">
 			<Progress taskItems={taskItems} />
@@ -49,6 +57,7 @@ function Main() {
 				taskItems={taskItems}
 				onDeleteTaskItem={handleDeleteTaskItem}
 				onToggleItem={handleToggleItem}
+				onEditTaskItem={handleEditTaskItem}
 			/>
 		</div>
 	);
@@ -104,7 +113,12 @@ function Form({ onAddTaskItems }) {
 	);
 }
 
-function TaskLists({ taskItems, onDeleteTaskItem, onToggleItem }) {
+function TaskLists({
+	taskItems,
+	onDeleteTaskItem,
+	onToggleItem,
+	onEditTaskItem,
+}) {
 	return (
 		<ul className="task-lists">
 			{taskItems.map((taskItem) => (
@@ -112,6 +126,7 @@ function TaskLists({ taskItems, onDeleteTaskItem, onToggleItem }) {
 					taskItem={taskItem}
 					onDeleteTaskItem={onDeleteTaskItem}
 					onToggleItem={onToggleItem}
+					onEditTaskItem={onEditTaskItem}
 					key={taskItem.id}
 				/>
 			))}
@@ -119,7 +134,19 @@ function TaskLists({ taskItems, onDeleteTaskItem, onToggleItem }) {
 	);
 }
 
-function Task({ taskItem, onDeleteTaskItem, onToggleItem }) {
+function Task({ taskItem, onDeleteTaskItem, onToggleItem, onEditTaskItem }) {
+	const [isEditing, setIsEditing] = useState(false);
+	const [editedTask, setEditedTask] = useState(taskItem.task);
+
+	const handleEdit = () => {
+		setIsEditing(true);
+	};
+
+	const handleSave = () => {
+		onEditTaskItem(taskItem.id, editedTask);
+		setIsEditing(false);
+	};
+
 	return (
 		<li className="task">
 			<div>
@@ -134,15 +161,28 @@ function Task({ taskItem, onDeleteTaskItem, onToggleItem }) {
 						onClick={() => onToggleItem(taskItem.id)}
 					></i>
 				</span>
-				<span
-					style={taskItem.completed ? { textDecoration: "line-through" } : {}}
-				>
-					{taskItem.task}
-				</span>
+				{isEditing ? (
+					<input
+						className="editTaskField"
+						type="text"
+						value={editedTask}
+						onChange={(e) => setEditedTask(e.target.value)}
+					/>
+				) : (
+					<span
+						style={taskItem.completed ? { textDecoration: "line-through" } : {}}
+					>
+						{taskItem.task}
+					</span>
+				)}
 			</div>
 
 			<span>
-				<i className="fa-regular fa-pen-to-square"></i>
+				{isEditing ? (
+					<i className="fa-solid fa-floppy-disk" onClick={handleSave}></i>
+				) : (
+					<i className="fa-regular fa-pen-to-square" onClick={handleEdit}></i>
+				)}
 				<i
 					onClick={() => onDeleteTaskItem(taskItem.id)}
 					className="fa-regular fa-trash-can"

@@ -47,7 +47,7 @@ body {
 	font-weight: 700;
 }
 
-.logo-text > span {
+.logo-text>span {
 	color: #ff5631;
 }
 
@@ -93,7 +93,7 @@ form {
 	justify-content: center;
 }
 
-form input {
+form>input {
 	min-width: 80%;
 	border: none;
 	border-radius: 1rem;
@@ -139,12 +139,12 @@ form .addBtn:hover {
 	background-color: #1e1e1e;
 }
 
-.task > div {
+.task>div {
 	display: flex;
 	gap: 0.5rem;
 }
 
-.task > span {
+.task>span {
 	display: flex;
 	gap: 1rem;
 }
@@ -158,11 +158,25 @@ form .addBtn:hover {
 	scale: 1.2;
 }
 
+.editTaskField {
+	background-color: #1e1e1e;
+	color: #e0cfb2;
+	border: none;
+	border-radius: 0.5rem;
+	font-size: 1.2rem;
+	font-family: "Poppins", sans-serif;
+}
+
+.editTaskField:focus {
+	border: none;
+}
+
 /* Media Queries */
 @media screen and (max-width: 21.25em) {
 	.progress {
 		flex-wrap: wrap;
 	}
+
 	.task {
 		flex-wrap: wrap;
 		justify-content: center;
