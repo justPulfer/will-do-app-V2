@@ -163,6 +163,7 @@ function Task({ taskItem, onDeleteTaskItem, onToggleItem, onEditTaskItem }) {
 				</span>
 				{isEditing ? (
 					<input
+						className="editTaskField"
 						type="text"
 						value={editedTask}
 						onChange={(e) => setEditedTask(e.target.value)}
@@ -178,7 +179,7 @@ function Task({ taskItem, onDeleteTaskItem, onToggleItem, onEditTaskItem }) {
 
 			<span>
 				{isEditing ? (
-					<button onClick={handleSave}>Save</button>
+					<i className="fa-solid fa-floppy-disk" onClick={handleSave}></i>
 				) : (
 					<i className="fa-regular fa-pen-to-square" onClick={handleEdit}></i>
 				)}
